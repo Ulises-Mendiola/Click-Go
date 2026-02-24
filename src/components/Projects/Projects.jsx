@@ -139,23 +139,14 @@ const Projects = () => {
     const trackRef = useRef(null);
     const headerRef = useScrollReveal({ threshold: 0.2 });
 
-    // Merging initial mock data with CRM data
-    const staticProjects = [
-        { id: 's1', title: 'Renova Inmobiliaria', tags: ['Landing Page', 'CRM'], emoji: '🏠', gradient: 'linear-gradient(135deg, #9333ea 0%, #c026d3 100%)', result: '+40% leads', description: 'Landing de alta conversión con sistema de gestión de prospectos integrado. Aumentó leads calificados en un 40% en el primer mes.', cliente: 'Renova S.A.' },
-        { id: 's2', title: 'LogiExpress MX', tags: ['Dashboard', 'CMS'], emoji: '🚚', gradient: 'linear-gradient(135deg, #0ea5e9 0%, #7c3aed 100%)', result: '-60% tiempo manual', description: 'Panel de control logístico con seguimiento en tiempo real, gestión de rutas y reportes automáticos.', cliente: 'LogiExpress' },
-    ];
-
-    const displayProjects = [
-        ...proyectos.map(p => ({
-            ...p,
-            title: p.nombre,
-            emoji: '🚀',
-            gradient: p.estado === 'finalizado' ? 'linear-gradient(135deg, #10b981 0%, #0ea5e9 100%)' : 'linear-gradient(135deg, #7c3aed 0%, #9333ea 100%)',
-            result: p.estado.toUpperCase(),
-            tags: (p.tags && p.tags.length > 0) ? p.tags : ['Desarrollo Web']
-        })),
-        ...staticProjects
-    ];
+    const displayProjects = proyectos.map(p => ({
+        ...p,
+        title: p.nombre,
+        emoji: '🚀',
+        gradient: p.estado === 'finalizado' ? 'linear-gradient(135deg, #10b981 0%, #0ea5e9 100%)' : 'linear-gradient(135deg, #7c3aed 0%, #9333ea 100%)',
+        result: p.estado.toUpperCase(),
+        tags: (p.tags && p.tags.length > 0) ? p.tags : ['Desarrollo Web']
+    }));
 
     const total = displayProjects.length;
     const prev = useCallback(() => setCurrent(c => (c - 1 + total) % total), [total]);
