@@ -1,0 +1,120 @@
+.problem-solution {
+    padding: 8rem 0;
+}
+
+.ps-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.ps-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 2.5rem;
+    line-height: 1.2;
+}
+
+.ps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.ps-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 14px;
+    transition: transform 0.3s ease;
+}
+
+.problem-side .ps-item {
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.solution-side .ps-item {
+    background: rgba(147, 51, 234, 0.06);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+}
+
+.ps-item:hover {
+    transform: translateX(4px);
+}
+
+.ps-icon-x {
+    color: #ef4444;
+    font-size: 1.2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    width: 24px;
+}
+
+.ps-icon-check {
+    color: #9333ea;
+    font-size: 1.2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    width: 24px;
+}
+
+.ps-item span:last-child {
+    color: var(--text-dim);
+    font-size: 0.97rem;
+    line-height: 1.6;
+}
+
+.ps-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 4rem;
+}
+
+.ps-divider-line {
+    flex: 1;
+    width: 1px;
+    background: var(--glass-border);
+    min-height: 100px;
+}
+
+.ps-divider-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
+
+/* Children animate individually via their own scroll-reveal refs */
+
+@media (max-width: 768px) {
+    .ps-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .ps-divider {
+        flex-direction: row;
+        padding-top: 0;
+    }
+
+    .ps-divider-line {
+        flex: 1;
+        width: auto;
+        height: 1px;
+        min-height: unset;
+    }
+}

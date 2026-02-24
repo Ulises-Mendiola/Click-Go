@@ -1,0 +1,92 @@
+.confidence {
+    padding: 8rem 0;
+}
+
+.confidence-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.value-card {
+    padding: 2.5rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.value-card:hover {
+    border-color: rgba(147, 51, 234, 0.3);
+    box-shadow: 0 12px 30px rgba(147, 51, 234, 0.1);
+    transform: translateY(-4px);
+}
+
+.value-icon {
+    font-size: 2.5rem;
+}
+
+.value-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.value-description {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Quote */
+.confidence-quote {
+    padding: 2.5rem 3rem;
+    border-radius: 20px;
+    text-align: center;
+    border-left: 3px solid rgba(147, 51, 234, 0.5);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.confidence-quote.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.confidence-quote p {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text-main);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.confidence-quote cite {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-style: normal;
+    font-weight: 600;
+}
+
+@media (max-width: 640px) {
+    .confidence-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .confidence-quote {
+        padding: 2rem 1.5rem;
+    }
+
+    .confidence-quote p {
+        font-size: 1.05rem;
+    }
+}

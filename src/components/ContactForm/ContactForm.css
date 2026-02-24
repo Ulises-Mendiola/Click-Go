@@ -1,0 +1,531 @@
+.contact-section {
+    padding: 8rem 0;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 4rem;
+    align-items: stretch;
+}
+
+
+/* WhatsApp CTA card on the left */
+.contact-wa-card {
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.contact-wa-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.08) 0%, rgba(192, 38, 211, 0.04) 100%);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+/* Decorative corner glow */
+.contact-wa-card::after {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.contact-wa-card:hover {
+    border-color: rgba(147, 51, 234, 0.35);
+    box-shadow: 0 0 60px rgba(147, 51, 234, 0.1);
+}
+
+/* ── Badge ── */
+.wa-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.25);
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #25D366;
+    letter-spacing: 0.02em;
+    width: fit-content;
+    position: relative;
+    z-index: 1;
+}
+
+.wa-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #25D366;
+    display: inline-block;
+    animation: pulse-dot 2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.75);
+    }
+}
+
+/* ── Body ── */
+.contact-wa-body {
+    position: relative;
+    z-index: 1;
+}
+
+.contact-wa-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--text-main);
+    margin-bottom: 0.75rem;
+}
+
+.contact-wa-sub {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── Benefits list ── */
+.wa-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.wa-benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+}
+
+.wa-benefit-item:hover {
+    color: var(--text-main);
+}
+
+.wa-benefit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(147, 51, 234, 0.1);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    color: #c084fc;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.wa-benefit-item:hover .wa-benefit-icon {
+    background: rgba(147, 51, 234, 0.2);
+    transform: scale(1.08);
+}
+
+/* ── Stat row ── */
+.wa-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 1.1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+.wa-stat {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.wa-stat-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+.wa-stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+}
+
+.wa-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--glass-border);
+    flex-shrink: 0;
+}
+
+/* ── CTA Button ── */
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: #25D366;
+    color: white;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 100%;
+}
+
+.whatsapp-btn:hover {
+    background: #1da851;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 36px rgba(37, 211, 102, 0.35);
+}
+
+.wa-arrow {
+    transition: transform 0.3s ease;
+    margin-left: auto;
+}
+
+.whatsapp-btn:hover .wa-arrow {
+    transform: translateX(5px);
+}
+
+
+
+/* Form side */
+.contact-form {
+    padding: 2.5rem;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: scaleIn 0.7s ease forwards 0.2s;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.87rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.required {
+    color: #9333ea;
+}
+
+.form-input {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.97rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    border-color: rgba(147, 51, 234, 0.6);
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.form-input.error {
+    border-color: rgba(239, 68, 68, 0.6);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-error {
+    font-size: 0.82rem;
+    color: #f87171;
+    margin-top: 0.25rem;
+    animation: fadeUp 0.3s ease;
+}
+
+
+.form-submit {
+    width: 100%;
+    justify-content: center;
+    padding: 1.1rem;
+    font-size: 1.05rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-submit.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.form-disclaimer {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+/* Success state premium Modal */
+.contact-success-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(5, 5, 26, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.contact-success-wrap {
+    text-align: center;
+    padding: 4rem 2.5rem;
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 550px;
+    width: 100%;
+    animation: modalPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.contact-success-overlay.is-exiting .contact-success-wrap {
+    animation: carAccelerate 1.2s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.6) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes carAccelerate {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    30% {
+        transform: translateY(60px) scale(0.98);
+        opacity: 1;
+    }
+
+    45% {
+        transform: translateY(60px) scale(0.98);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-160vh) scale(1.15);
+        opacity: 0;
+    }
+}
+
+.success-lottie-mock {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+}
+
+.success-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+    animation: popBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.success-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(147, 51, 234, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes popBounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+.contact-success-wrap h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.contact-success-wrap p {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* Animations */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

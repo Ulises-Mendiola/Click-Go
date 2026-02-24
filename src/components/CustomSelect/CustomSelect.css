@@ -1,0 +1,118 @@
+.custom-select-container {
+    position: relative;
+    width: 100%;
+    min-width: 160px;
+    font-family: var(--font-outfit);
+    z-index: 1;
+}
+
+.custom-select-container.is-open {
+    z-index: 9999;
+}
+
+.custom-select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    text-align: left;
+}
+
+.custom-select-trigger:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(147, 51, 234, 0.4);
+    color: var(--text-main);
+}
+
+.custom-select-container.is-open .custom-select-trigger {
+    border-color: #c084fc;
+    box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.1);
+}
+
+.select-arrow {
+    transition: transform 0.3s ease;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.is-open .select-arrow {
+    transform: rotate(180deg);
+    color: #c084fc;
+}
+
+.custom-select-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(15, 17, 23, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.5rem;
+    list-style: none;
+    margin: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom-select-option {
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.2s ease;
+}
+
+.custom-select-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.custom-select-option.is-selected {
+    background: rgba(147, 51, 234, 0.15);
+    color: #c084fc;
+    font-weight: 600;
+}
+
+.option-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Specific to Dashboard Cards where space is tight */
+.prosp-controls .custom-select-container,
+.cli-status-select-container .custom-select-container {
+    font-size: 0.8rem;
+}
+
+.prosp-controls .custom-select-trigger {
+    padding: 0.45rem 0.7rem;
+}
