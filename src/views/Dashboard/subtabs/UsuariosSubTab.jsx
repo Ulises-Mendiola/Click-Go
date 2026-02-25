@@ -35,54 +35,64 @@ const UsuariosSubTab = () => {
     };
 
     return (
-        <div className="conf-subtab fade-in">
+        <div className="config-container">
             <div className="conf-card glass">
                 <div className="conf-card-header-flex">
-                    <div>
+                    <div className="conf-card-header">
                         <h3>Gestión de Usuarios</h3>
-                        <p>Lista de personas con acceso al panel administrativo.</p>
+                        <p>Control de acceso interno para tu equipo administrativo.</p>
                     </div>
                     {isAdmin && (
-                        <button className="proy-add-btn small" onClick={() => setShowCreateModal(true)}>
+                        <button className="proy-add-btn small shadow-glow" onClick={() => setShowCreateModal(true)}>
                             + Nuevo Usuario
                         </button>
                     )}
                 </div>
 
-                <div className="users-table-container">
-                    <table className="users-table">
+                <div className="users-table-container-premium">
+                    <table className="users-table-premium">
                         <thead>
                             <tr>
                                 <th>Nombre Completo</th>
-                                <th>Rol</th>
-                                <th>Contraseña</th>
-                                <th>Fecha de Alta</th>
+                                <th>Rol de Acceso</th>
+                                <th>Acceso (Password)</th>
+                                <th>Fecha Registro</th>
                             </tr>
                         </thead>
                         <tbody>
                             {usuariosList.map(u => (
-                                <tr key={u.id}>
+                                <tr key={u.id} className="user-row-premium">
                                     <td>
-                                        <div className="user-info">
-                                            <div className="user-avatar">{u.nombre[0]}{u.apellido[0]}</div>
-                                            <span>{u.nombre} {u.apellido}</span>
+                                        <div className="user-info-premium">
+                                            <div className="user-avatar-premium">
+                                                {u.nombre[0]}{u.apellido[0]}
+                                            </div>
+                                            <div className="user-name-stack">
+                                                <span className="user-full-name">{u.nombre} {u.apellido}</span>
+                                                <span className="user-id-hint">ID: {u.id.slice(-4)}</span>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <span className={`rol-badge ${u.rol.toLowerCase()}`}>{u.rol}</span>
+                                        <span className={`rol-badge-premium ${u.rol.toLowerCase()}`}>
+                                            <span className="badge-dot"></span>
+                                            {u.rol}
+                                        </span>
                                     </td>
                                     <td>
-                                        <div className="pass-cell">
-                                            <span className="pass-text">
+                                        <div className="pass-cell-premium">
+                                            <code className="pass-code">
                                                 {showPassMap[u.id] ? u.password : '••••••••'}
-                                            </span>
-                                            <button className="pass-toggle" onClick={() => togglePass(u.id)}>
+                                            </code>
+                                            <button className="pass-toggle-premium" onClick={() => togglePass(u.id)}>
                                                 {showPassMap[u.id] ? <IcoEyeOff /> : <IcoEye />}
                                             </button>
                                         </div>
                                     </td>
                                     <td className="date-cell">
-                                        {new Date(u.fecha).toLocaleDateString()}
+                                        <span className="date-text">
+                                            {new Date(u.fecha).toLocaleDateString()}
+                                        </span>
                                     </td>
                                 </tr>
                             ))}
@@ -91,62 +101,72 @@ const UsuariosSubTab = () => {
                 </div>
             </div>
 
-            {/* Modal para Crear Usuario */}
+            {/* Modal para Crear Usuario Refined */}
             {showCreateModal && (
-                <div className="crm-modal-overlay" onClick={() => setShowCreateModal(false)}>
-                    <div className="crm-modal glass" onClick={e => e.stopPropagation()}>
+                <div className="crm-modal-overlay premium-blur" onClick={() => setShowCreateModal(false)}>
+                    <div className="crm-modal-premium glass" onClick={e => e.stopPropagation()}>
                         <form onSubmit={handleCreate}>
-                            <h3 className="crm-modal-title">Registrar Nuevo Usuario</h3>
+                            <div className="modal-header-premium">
+                                <h3 className="crm-modal-title">Registrar Usuario</h3>
+                                <p className="crm-modal-subtitle">Asigna credenciales para un nuevo colaborador.</p>
+                            </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Nombre</label>
+                            <div className="form-row-premium">
+                                <div className="crm-group">
+                                    <label className="crm-label">Nombre</label>
                                     <input
                                         type="text"
-                                        className="crm-modal-input"
+                                        className="crm-input-premium"
                                         required
                                         value={newUser.nombre}
                                         onChange={e => setNewUser({ ...newUser, nombre: e.target.value })}
+                                        placeholder="Ej: Ulises"
                                     />
                                 </div>
-                                <div className="form-group">
-                                    <label>Apellido</label>
+                                <div className="crm-group">
+                                    <label className="crm-label">Apellido</label>
                                     <input
                                         type="text"
-                                        className="crm-modal-input"
+                                        className="crm-input-premium"
                                         required
                                         value={newUser.apellido}
                                         onChange={e => setNewUser({ ...newUser, apellido: e.target.value })}
+                                        placeholder="Ej: Mendiola"
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-group">
-                                <label>Rol de Acceso</label>
+                            <div className="crm-group">
+                                <label className="crm-label">Rol de Acceso</label>
                                 <select
-                                    className="crm-modal-input"
+                                    className="crm-input-premium"
                                     value={newUser.rol}
                                     onChange={e => setNewUser({ ...newUser, rol: e.target.value })}
                                 >
-                                    <option value="Gestion">Gestión (Limitado)</option>
-                                    <option value="Admin">Administrador (Total)</option>
+                                    <option value="Gestion">Gestión (Lectura/Escritura limitada)</option>
+                                    <option value="Admin">Administrador (Control total)</option>
                                 </select>
                             </div>
 
-                            <div className="form-group">
-                                <label>Contraseña Inicial</label>
+                            <div className="crm-group">
+                                <label className="crm-label">Contraseña Inicial</label>
                                 <input
                                     type="password"
-                                    className="crm-modal-input"
+                                    className="crm-input-premium"
                                     required
                                     value={newUser.password}
                                     onChange={e => setNewUser({ ...newUser, password: e.target.value })}
+                                    placeholder="Mínimo 6 caracteres"
                                 />
                             </div>
 
-                            <div className="crm-modal-actions">
-                                <button type="button" className="crm-modal-cancel" onClick={() => setShowCreateModal(false)}>Cancelar</button>
-                                <button type="submit" className="crm-modal-confirm">Crear Usuario</button>
+                            <div className="crm-modal-actions-premium">
+                                <button type="button" className="btn-cancel-premium" onClick={() => setShowCreateModal(false)}>
+                                    Cancelar
+                                </button>
+                                <button type="submit" className="btn-confirm-premium">
+                                    Crear Cuenta
+                                </button>
                             </div>
                         </form>
                     </div>

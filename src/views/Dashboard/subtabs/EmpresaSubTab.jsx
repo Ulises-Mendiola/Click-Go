@@ -59,7 +59,7 @@ const EmpresaSubTab = () => {
     };
 
     return (
-        <div className="conf-subtab fade-in">
+        <div className="config-container">
             <form onSubmit={handleSubmit} className="conf-form-full">
                 <div className="conf-grid">
                     {/* Identidad */}
@@ -70,43 +70,51 @@ const EmpresaSubTab = () => {
                         </div>
 
                         <div className="logo-upload-section">
-                            <div className="logo-preview-big" style={{ backgroundImage: `url(${formData.logo_url})` }}>
-                                {!formData.logo_url && <span>Sin Logo</span>}
+                            <div className="logo-preview-big">
+                                {formData.logo_url ? (
+                                    <img src={formData.logo_url} alt="Logo" className="logo-img-fit" />
+                                ) : (
+                                    <span className="logo-placeholder">Sin Logo</span>
+                                )}
                             </div>
                             <div className="logo-upload-controls">
                                 <input type="file" id="logo-input" hidden onChange={handleLogoChange} accept="image/*" />
                                 <label htmlFor="logo-input" className="proy-add-btn small">
-                                    <IcoCamera /> Cambiar Logo
+                                    <IcoCamera /> Cambiar Imagen
                                 </label>
-                                <p className="input-hint">Se recomienda PNG transparente 512x512px.</p>
+                                <p className="input-hint mt-8">PNG transparente recomendado (512x512px).</p>
                             </div>
                         </div>
 
-                        <div className="form-group mt-20">
-                            <label>WhatsApp de la Empresa</label>
+                        <div className="divider-glow mt-32"></div>
+
+                        <div className="crm-group mt-20">
+                            <label className="crm-label">WhatsApp de la Empresa</label>
                             <input
                                 type="text"
-                                className="crm-modal-input"
+                                className="crm-input-premium"
                                 placeholder="Ej: 521XXXXXXXXXX"
                                 value={formData.whatsapp}
                                 onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
                             />
-                            <span className="input-hint">Usa el formato internacional sin símbolos.</span>
+                            <span className="input-hint">Formato internacional sin símbolos.</span>
                         </div>
                     </div>
 
                     {/* Redes Sociales */}
                     <div className="conf-card glass">
                         <div className="conf-card-header">
-                            <h3>Redes Sociales</h3>
-                            <p>Habilita las redes que quieres mostrar en el footer.</p>
+                            <h3>Canales de Comunicación</h3>
+                            <p>Activa los enlaces que aparecerán en el pie de página de tu sitio.</p>
                         </div>
 
                         <div className="redes-list">
                             {Object.keys(formData.redes).map(red => (
-                                <div key={red} className="red-item">
+                                <div key={red} className="red-item-premium">
                                     <div className="red-header">
-                                        <span className="red-name">{red.charAt(0).toUpperCase() + red.slice(1)}</span>
+                                        <div className="red-name-group">
+                                            <span className="red-name">{red.charAt(0).toUpperCase() + red.slice(1)}</span>
+                                        </div>
                                         <label className="switch">
                                             <input
                                                 type="checkbox"
@@ -118,7 +126,7 @@ const EmpresaSubTab = () => {
                                     </div>
                                     <input
                                         type="text"
-                                        className={`crm-modal-input ${!formData.redes[red].enabled ? 'disabled' : ''}`}
+                                        className={`crm-input-premium ${!formData.redes[red].enabled ? 'disabled' : ''}`}
                                         placeholder={`URL de ${red}`}
                                         disabled={!formData.redes[red].enabled}
                                         value={formData.redes[red].url}
@@ -131,7 +139,9 @@ const EmpresaSubTab = () => {
                 </div>
 
                 <div className="conf-sticky-footer">
-                    <button type="submit" className="proy-add-btn large">Publicar Cambios Globales</button>
+                    <button type="submit" className="proy-add-btn large shadow-glow">
+                        Publicar Cambios Globales
+                    </button>
                 </div>
             </form>
         </div>
