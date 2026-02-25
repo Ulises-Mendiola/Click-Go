@@ -89,7 +89,18 @@ const TemperatureGauge = ({ value }) => {
 };
 
 const DashboardHome = () => {
-    const { prospectos, clientes, proyectos } = useCRM();
+    const { prospectos, clientes, proyectos, loading } = useCRM();
+
+    if (loading) {
+        return (
+            <div className="db-home control-center loading-state">
+                <div className="glass loading-card">
+                    <div className="spinner"></div>
+                    <p>Cargando datos estratégicos...</p>
+                </div>
+            </div>
+        );
+    }
 
     // Cálculos de negocio
     const conversionRate = prospectos.length > 0
