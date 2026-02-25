@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCRM } from '../../context/CRMContext';
+import { useCRM } from '../../../context/CRMContext';
 import { uploadImageAction } from '@/app/actions';
 
 const PerfilSubTab = () => {
