@@ -90,20 +90,31 @@ const ProyectosTab = () => {
         setShowModal(false);
     };
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
         const files = Array.from(e.target.files);
         if (files.length === 0) return;
 
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setFormData(prev => ({
-                    ...prev,
-                    imagenes: [...prev.imagenes, reader.result]
-                }));
-            };
-            reader.readAsDataURL(file);
-        });
+        const { uploadImageAction } = await import('@/app/actions');
+
+        for (const file of files) {
+            const formDataUpload = new FormData();
+            formDataUpload.append('file', file);
+
+            // Sileo feedback for individual upload
+            const uploadPromise = uploadImageAction(formDataUpload);
+
+            try {
+                const res = await uploadPromise;
+                if (res.success) {
+                    setFormData(prev => ({
+                        ...prev,
+                        imagenes: [...prev.imagenes, res.url]
+                    }));
+                }
+            } catch (error) {
+                console.error("Upload error:", error);
+            }
+        }
     };
 
     const toggleTag = (tag) => {

@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useCRM } from '../../context/CRMContext';
 import './Navbar.css';
 
 const Navbar = () => {
+  const { config } = useCRM();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    if (config?.logo_url) {
+      const link = document.querySelector("link[rel~='icon']") || document.createElement('link');
+      link.rel = 'icon';
+      link.href = config.logo_url;
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+  }, [config?.logo_url]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -40,7 +51,11 @@ const Navbar = () => {
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`} role="navigation" aria-label="Navegación principal">
       <div className="container nav-container">
         <Link href="#home" className="nav-logo" aria-label="Click & Go — Inicio">
-          Click <span className="text-gradient">& Go</span>
+          {config?.logo_url ? (
+            <img src={config.logo_url} alt="Logo" className="nav-logo-img" />
+          ) : (
+            <>Click <span className="text-gradient">& Go</span></>
+          )}
         </Link>
 
         <div className="nav-links-desktop">

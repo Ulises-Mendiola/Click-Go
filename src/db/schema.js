@@ -36,3 +36,24 @@ export const proyectos = pgTable('proyectos', {
     estado: varchar('estado', { length: 50 }).default('en proceso').notNull(),
     tags: json('tags').default([]).notNull(), // Almacenamos el array de tags
 });
+
+export const usuarios = pgTable('usuarios', {
+    id: varchar('id', { length: 255 }).primaryKey(),
+    nombre: varchar('nombre', { length: 255 }).notNull(),
+    apellido: varchar('apellido', { length: 255 }).notNull(),
+    rol: varchar('rol', { length: 50 }).default('Gestion').notNull(), // Admin, Gestion
+    password: text('password').notNull(),
+    fecha: timestamp('fecha').defaultNow().notNull(),
+});
+
+export const global_config = pgTable('global_config', {
+    id: varchar('id', { length: 255 }).primaryKey(), // Normalmente 'singleton'
+    logo_url: text('logo_url').default('').notNull(),
+    whatsapp: varchar('whatsapp', { length: 50 }).default('').notNull(),
+    redes: json('redes').default({
+        facebook: { url: '', enabled: false },
+        instagram: { url: '', enabled: false },
+        linkedin: { url: '', enabled: false },
+        github: { url: '', enabled: false }
+    }).notNull(),
+});

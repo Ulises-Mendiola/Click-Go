@@ -5,7 +5,9 @@ import {
     getProspectos, addProspectoAction, updateProspectoEstadoAction, deleteProspectoAction,
     getClientes, updateClienteAction, deleteClienteAction,
     getProyectos, addProyectoAction, updateProyectoAction, deleteProyectoAction,
-    convertirAClienteAction
+    convertirAClienteAction,
+    getGlobalConfig, updateGlobalConfigAction,
+    getUsuarios, addUsuarioAction, updateUsuarioAction, ensureDefaultUser
 } from '@/app/actions';
 
 const CRMContext = createContext(null);
@@ -14,20 +16,34 @@ export const CRMProvider = ({ children }) => {
     const [prospectos, setProspectos] = useState([]);
     const [clientes, setClientes] = useState([]);
     const [proyectos, setProyectos] = useState([]);
+    const [usuariosList, setUsuariosList] = useState([]);
+    const [config, setConfig] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Carga inicial desde la Base de Datos
     useEffect(() => {
         const loadInitialData = async () => {
             try {
-                const [p, c, pr] = await Promise.all([
+                // Asegurar usuario base (Ulises)
+                await ensureDefaultUser();
+
+                const [p, c, pr, conf, users] = await Promise.all([
                     getProspectos(),
                     getClientes(),
-                    getProyectos()
+                    getProyectos(),
+                    getGlobalConfig(),
+                    getUsuarios()
                 ]);
                 setProspectos(p);
                 setClientes(c);
                 setProyectos(pr);
+                setConfig(conf);
+                setUsuariosList(users);
+
+                // Mock login for 'Ulises' for now
+                const ulises = users.find(u => u.nombre === 'Ulises') || users[0];
+                setCurrentUser(ulises);
             } catch (error) {
                 console.error("Error al cargar datos del CRM:", error);
             } finally {
@@ -42,19 +58,11 @@ export const CRMProvider = ({ children }) => {
         const bc = new BroadcastChannel('crm_notifications');
         bc.onmessage = (event) => {
             if (event.data.type === 'REFRESH_DATA') {
-                // Si otra pestaña hizo un cambio, recargamos
                 getProspectos().then(setProspectos);
                 getClientes().then(setClientes);
                 getProyectos().then(setProyectos);
-            }
-
-            if (event.data.type === 'NEW_PROSPECT') {
-                const { nuevo } = event.data;
-                sileo.info({
-                    title: 'Nuevo prospecto recibido',
-                    description: `${nuevo.nombre} ${nuevo.apellido} está interesado.`,
-                    duration: 5000
-                });
+                getGlobalConfig().then(setConfig);
+                getUsuarios().then(setUsuariosList);
             }
         };
         return () => bc.close();
@@ -66,38 +74,20 @@ export const CRMProvider = ({ children }) => {
         bc.close();
     };
 
-    const addProspecto = async (data, options = { manual: false }) => {
+    // --- PROSPECTOS ---
+    const addProspecto = async (data) => {
         const result = await addProspectoAction(data);
         if (result.success) {
-            setProspectos(prev => [result.nuevo, ...prev]);
-
-            const bc = new BroadcastChannel('crm_notifications');
-            bc.postMessage({ type: 'NEW_PROSPECT', nuevo: result.nuevo });
-            bc.close();
+            getProspectos().then(setProspectos);
             notifySync();
-
-            if (options.manual) {
-                sileo.action({
-                    title: 'Prospecto registrado manualmente',
-                    description: `${result.nuevo.nombre} ${result.nuevo.apellido} ha sido añadido al CRM.`,
-                    action: { label: 'Revisar', onClick: () => console.log('Revisando prospecto manual...') }
-                });
-            } else {
-                sileo.info({
-                    title: 'Nuevo prospecto recibido',
-                    description: `${result.nuevo.nombre} ${result.nuevo.apellido} está interesado.`,
-                    duration: 5000
-                });
-            }
-        } else {
-            sileo.error({ title: 'Error', description: 'No se pudo guardar el prospecto.' });
+            sileo.success({ title: 'Prospecto agregado', description: `${data.nombre} ha sido registrado.` });
         }
     };
 
-    const updateProspectoEstado = async (id, estado) => {
-        const result = await updateProspectoEstadoAction(id, estado);
+    const updateProspectoEstado = async (id, nuevoEstado) => {
+        const result = await updateProspectoEstadoAction(id, nuevoEstado);
         if (result.success) {
-            setProspectos(prev => prev.map(p => p.id === id ? { ...p, estado } : p));
+            getProspectos().then(setProspectos);
             notifySync();
         }
     };
@@ -105,90 +95,42 @@ export const CRMProvider = ({ children }) => {
     const deleteProspecto = async (id) => {
         const result = await deleteProspectoAction(id);
         if (result.success) {
-            setProspectos(prev => prev.filter(p => p.id !== id));
+            getProspectos().then(setProspectos);
             notifySync();
+            sileo.info({ title: 'Prospecto eliminado' });
         }
     };
 
-    const convertirACliente = async (prospecto, nombreProyecto) => {
-        const promise = convertirAClienteAction(prospecto.id, nombreProyecto);
-
-        sileo.promise(promise, {
-            loading: {
-                title: 'Confirmando conversión...',
-                description: 'Preparando expediente del nuevo cliente.'
-            },
-            success: (res) => {
-                // Actualizar estado local
-                getProspectos().then(setProspectos);
-                getClientes().then(setClientes);
-                getProyectos().then(setProyectos);
-                notifySync();
-
-                return {
-                    title: '¡Conversión Exitosa!',
-                    description: (
-                        <div className="flight-toast-card-inner">
-                            <div className="flight-toast-top-row">
-                                <span className="flight-toast-brand">CLICK & GO</span>
-                                <span className="flight-toast-pnr">ID {res.clienteId.slice(-6).toUpperCase()}</span>
-                            </div>
-
-                            <div className="flight-toast-project-row">
-                                <div className="project-label">PROYECTO:</div>
-                                <div className="project-name">{nombreProyecto}</div>
-                            </div>
-
-                            <div className="flight-toast-path-row">
-                                <div className="flight-point">
-                                    <span className="flight-code">PROSP</span>
-                                    <div className="flight-icon-circle">↗</div>
-                                </div>
-
-                                <svg className="flight-svg-path" viewBox="0 0 120 40">
-                                    <path
-                                        d="M 10 35 Q 60 0 110 35"
-                                        className="path-arc"
-                                    />
-                                </svg>
-
-                                <div className="flight-point">
-                                    <span className="flight-code">CLIENT</span>
-                                    <div className="flight-icon-circle">↘</div>
-                                </div>
-                            </div>
-
-                            <div className="flight-toast-conversion-text">
-                                Traspaso de prospecto a cliente completado
-                            </div>
-                        </div>
-                    ),
-                    duration: 8000
-                };
-            },
-            error: {
-                title: 'Error en conversión',
-                description: 'No se pudo completar el proceso.'
-            }
-        });
+    const convertirACliente = async (prospectoId, datosCliente) => {
+        const result = await convertirAClienteAction(prospectoId, datosCliente);
+        if (result.success) {
+            getProspectos().then(setProspectos);
+            getClientes().then(setClientes);
+            notifySync();
+            sileo.success({ title: '¡Conversión exitosa!', description: 'El prospecto ahora es un cliente.' });
+        }
     };
 
+    // --- CLIENTES ---
     const updateCliente = async (id, data) => {
         const result = await updateClienteAction(id, data);
         if (result.success) {
-            setClientes(prev => prev.map(c => c.id === id ? { ...c, ...data } : c));
+            getClientes().then(setClientes);
             notifySync();
+            sileo.success({ title: 'Cliente actualizado' });
         }
     };
 
     const deleteCliente = async (id) => {
         const result = await deleteClienteAction(id);
         if (result.success) {
-            setClientes(prev => prev.filter(c => c.id !== id));
+            getClientes().then(setClientes);
             notifySync();
+            sileo.info({ title: 'Cliente eliminado' });
         }
     };
 
+    // --- PROYECTOS ---
     const addProyecto = async (data) => {
         const result = await addProyectoAction(data);
         if (result.success) {
@@ -201,25 +143,59 @@ export const CRMProvider = ({ children }) => {
     const updateProyecto = async (id, data) => {
         const result = await updateProyectoAction(id, data);
         if (result.success) {
-            setProyectos(prev => prev.map(p => p.id === id ? { ...p, ...data } : p));
+            getProyectos().then(setProyectos);
             notifySync();
+            sileo.success({ title: 'Proyecto actualizado' });
         }
     };
 
     const deleteProyecto = async (id) => {
         const result = await deleteProyectoAction(id);
         if (result.success) {
-            setProyectos(prev => prev.filter(p => p.id !== id));
+            getProyectos().then(setProyectos);
             notifySync();
+            sileo.info({ title: 'Proyecto eliminado' });
+        }
+    };
+
+    // --- CONFIGURACIÓN & USUARIOS ---
+    const updateConfig = async (data) => {
+        const result = await updateGlobalConfigAction(data);
+        if (result.success) {
+            setConfig(prev => ({ ...prev, ...data }));
+            notifySync();
+            sileo.success({ title: 'Configuración actualizada' });
+        }
+    };
+
+    const addUsuario = async (data) => {
+        const result = await addUsuarioAction(data);
+        if (result.success) {
+            getUsuarios().then(setUsuariosList);
+            notifySync();
+            sileo.success({ title: 'Usuario creado', description: `${data.nombre} ${data.apellido}` });
+        }
+    };
+
+    const updateUsuario = async (id, data) => {
+        const result = await updateUsuarioAction(id, data);
+        if (result.success) {
+            getUsuarios().then(setUsuariosList);
+            if (currentUser && currentUser.id === id) {
+                setCurrentUser(prev => ({ ...prev, ...data }));
+            }
+            notifySync();
+            sileo.success({ title: 'Perfil actualizado' });
         }
     };
 
     return (
         <CRMContext.Provider value={{
-            prospectos, clientes, proyectos, loading,
+            prospectos, clientes, proyectos, usuariosList, config, currentUser, loading,
             addProspecto, updateProspectoEstado, deleteProspecto,
             convertirACliente, updateCliente, deleteCliente,
-            addProyecto, updateProyecto, deleteProyecto
+            addProyecto, updateProyecto, deleteProyecto,
+            updateConfig, addUsuario, updateUsuario
         }}>
             {children}
         </CRMContext.Provider>

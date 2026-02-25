@@ -276,3 +276,17 @@ button {
 [data-sileo-canvas] {
   filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6)) !important;
 }
+
+/* Dynamic Logos */
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 10px;
+}

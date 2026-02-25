@@ -788,16 +788,16 @@
     background: #0f1117 !important;
     /* Force dark background */
     color: white !important;
-    width: 100%;
-    max-width: 320px;
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    width: 340px;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .flight-toast-top-row {
@@ -914,4 +914,286 @@
     to {
         stroke-dashoffset: -100;
     }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   CONFIGURACIÓN & SUB-TABS
+   ────────────────────────────────────────────────────────────────────────── */
+.config-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.config-nav {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.conf-nav-item {
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: var(--text-dim);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.conf-nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.conf-nav-item.active {
+    background: var(--primary);
+    color: white;
+}
+
+.config-viewport {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.conf-card {
+    padding: 24px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.conf-card-header {
+    margin-bottom: 24px;
+}
+
+.conf-card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.conf-card-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.conf-card-header p {
+    margin: 5px 0 0;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+.conf-form-full {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.conf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 1024px) {
+    .conf-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Logo Upload */
+.logo-upload-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-preview-big {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-upload-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Redes */
+.redes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.red-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.red-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.red-name {
+    font-size: 0.9rem;
+    color: white;
+}
+
+/* Users Table */
+.users-table-container {
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th {
+    text-align: left;
+    padding: 12px;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.users-table td {
+    padding: 16px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    margin-right: 12px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.rol-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.rol-badge.admin {
+    background: rgba(168, 85, 247, 0.2);
+    color: #a855f7;
+}
+
+.rol-badge.gestion {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+.pass-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pass-toggle {
+    cursor: pointer;
+    color: var(--text-dim);
+    transition: color 0.2s;
+    background: none;
+    border: none;
+}
+
+.pass-toggle:hover {
+    color: white;
+}
+
+/* Switch Slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: var(--primary);
+}
+
+input:checked+.slider:before {
+    transform: translateX(16px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.conf-sticky-footer {
+    position: sticky;
+    bottom: 0;
+    padding: 20px;
+    background: rgba(15, 17, 23, 0.8);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: flex-end;
 }
