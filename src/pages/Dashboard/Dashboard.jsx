@@ -1,5 +1,7 @@
+"use client";
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Toaster } from 'sileo';
 // import { CRMProvider } from '../../context/CRMContext'; // Movido a App.jsx
 import DashboardHome from './DashboardHome';
@@ -31,7 +33,7 @@ const IcoLogout = () => (
 );
 
 const Dashboard = () => {
-    const navigate = useNavigate();
+    const router = useRouter();
     const [activeModule, setActiveModule] = useState('home'); // home, clientes, proyectos
     const [activeTab, setActiveTab] = useState('prospectos'); // dentro de gestión de clientes
 
@@ -54,9 +56,9 @@ const Dashboard = () => {
 
             <aside className="sidebar glass">
                 <div className="sidebar-brand">
-                    <a href="/" className="dashboard-logo">
+                    <Link href="/" className="dashboard-logo">
                         Click <span className="text-gradient">&amp; Go</span>
-                    </a>
+                    </Link>
                     <p className="sidebar-tagline">Admin Panel</p>
                 </div>
 
@@ -84,7 +86,7 @@ const Dashboard = () => {
                 </nav>
 
                 <div className="sidebar-footer">
-                    <button className="logout-btn" onClick={() => navigate('/login')}>
+                    <button className="logout-btn" onClick={() => router.push('/login')}>
                         <IcoLogout /> <span>Cerrar Sesión</span>
                     </button>
                 </div>

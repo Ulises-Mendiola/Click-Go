@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import './Footer.css';
 
@@ -54,9 +54,9 @@ const Footer = () => {
 
                     {/* Col 1 — Brand */}
                     <div className="footer-col footer-brand-col">
-                        <a href="#home" className="footer-logo" aria-label="Click & Go – Inicio">
+                        <Link href="#home" className="footer-logo" aria-label="Click & Go – Inicio">
                             Click <span className="text-gradient">&amp; Go</span>
-                        </a>
+                        </Link>
                         <p className="footer-tagline">
                             Estrategia, diseño y desarrollo<br />que convierten visitas en clientes.
                         </p>
@@ -121,7 +121,7 @@ const Footer = () => {
 
                     <div className="footer-bottom-right">
                         <Link
-                            to="/login"
+                            href="/login"
                             className="admin-btn glass"
                             id="admin-panel-btn"
                             aria-label="Panel Administrativo"

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -38,9 +39,9 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`} role="navigation" aria-label="Navegación principal">
       <div className="container nav-container">
-        <a href="#home" className="nav-logo" aria-label="Click & Go — Inicio">
+        <Link href="#home" className="nav-logo" aria-label="Click & Go — Inicio">
           Click <span className="text-gradient">& Go</span>
-        </a>
+        </Link>
 
         <div className="nav-links-desktop">
           {navLinks.map(link => (

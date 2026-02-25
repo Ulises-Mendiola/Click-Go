@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import './LoginPage.css';
 
 const VALID_USER = 'Ulises';
@@ -10,7 +11,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,7 +20,7 @@ const LoginPage = () => {
 
         setTimeout(() => {
             if (username === VALID_USER && password === VALID_PASS) {
-                navigate('/dashboard');
+                router.push('/dashboard');
             } else {
                 setError('Usuario o contraseña incorrectos.');
                 setLoading(false);
@@ -39,9 +40,9 @@ const LoginPage = () => {
 
             <div className="login-card glass">
                 {/* Logo */}
-                <a href="/" className="login-logo" aria-label="Click & Go — Inicio">
+                <Link href="/" className="login-logo" aria-label="Click & Go — Inicio">
                     Click <span className="text-gradient">&amp; Go</span>
-                </a>
+                </Link>
                 <p className="login-subtitle">Panel Administrativo</p>
 
                 {/* Formulario */}
@@ -101,9 +102,9 @@ const LoginPage = () => {
                     </button>
                 </form>
 
-                <a href="/" className="login-back">
+                <Link href="/" className="login-back">
                     ← Volver a la landing
-                </a>
+                </Link>
             </div>
         </div>
     );
