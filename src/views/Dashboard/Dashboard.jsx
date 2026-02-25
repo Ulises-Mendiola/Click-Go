@@ -79,7 +79,10 @@ const Dashboard = () => {
 
                     <button
                         className={`nav-item ${activeModule === 'clientes' ? 'active' : ''}`}
-                        onClick={() => setActiveModule('clientes')}
+                        onClick={() => {
+                            setActiveModule('clientes');
+                            setActiveTab('prospectos');
+                        }}
                     >
                         <IcoManagement /> <span>Gestión de Clientes</span>
                     </button>
@@ -93,7 +96,10 @@ const Dashboard = () => {
 
                     <button
                         className={`nav-item ${activeModule === 'config' ? 'active' : ''}`}
-                        onClick={() => setActiveModule('config')}
+                        onClick={() => {
+                            setActiveModule('config');
+                            setActiveTab('perfil');
+                        }}
                     >
                         <IcoSettings /> <span>Configuración</span>
                     </button>
@@ -112,20 +118,45 @@ const Dashboard = () => {
                         {getModuleTitle()}
                     </h1>
 
-                    {activeModule === 'clientes' && (
+                    {(activeModule === 'clientes' || activeModule === 'config') && (
                         <div className="sub-tabs">
-                            <button
-                                className={`sub-tab ${activeTab === 'prospectos' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('prospectos')}
-                            >
-                                Prospectos
-                            </button>
-                            <button
-                                className={`sub-tab ${activeTab === 'clientes' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('clientes')}
-                            >
-                                Clientes
-                            </button>
+                            {activeModule === 'clientes' ? (
+                                <>
+                                    <button
+                                        className={`sub-tab ${activeTab === 'prospectos' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('prospectos')}
+                                    >
+                                        Prospectos
+                                    </button>
+                                    <button
+                                        className={`sub-tab ${activeTab === 'clientes' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('clientes')}
+                                    >
+                                        Clientes
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <button
+                                        className={`sub-tab ${activeTab === 'perfil' || activeTab === 'prospectos' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('perfil')}
+                                    >
+                                        Mi Perfil
+                                    </button>
+                                    <button
+                                        className={`sub-tab ${activeTab === 'empresa' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('empresa')}
+                                    >
+                                        Datos Empresa
+                                    </button>
+                                    <button
+                                        className={`sub-tab ${activeTab === 'usuarios' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('usuarios')}
+                                    >
+                                        Usuarios
+                                    </button>
+                                </>
+                            )}
                         </div>
                     )}
                 </header>
@@ -136,7 +167,7 @@ const Dashboard = () => {
                         activeTab === 'prospectos' ? <ProspectosTab /> : <ClientesTab />
                     )}
                     {activeModule === 'proyectos' && <ProyectosTab />}
-                    {activeModule === 'config' && <ConfiguracionTab />}
+                    {activeModule === 'config' && <ConfiguracionTab activeSubTab={activeTab === 'prospectos' ? 'perfil' : activeTab} />}
                 </div>
             </main>
         </div>

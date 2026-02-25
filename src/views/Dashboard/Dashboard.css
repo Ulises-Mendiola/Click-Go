@@ -2,11 +2,12 @@
 :root {
     --db-sidebar-width: 280px;
     --db-header-height: 80px;
+    --primary: #9333ea;
 }
 
 .dashboard-container {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
     background: #090a0f;
     color: var(--text-main);
     overflow: hidden;
@@ -183,6 +184,11 @@
 .module-content {
     flex: 1;
     padding: 2.5rem 3rem;
+    overflow-y: auto;
+}
+
+.scrollable {
+    overflow-y: auto;
 }
 
 /* Dashboard Home */
